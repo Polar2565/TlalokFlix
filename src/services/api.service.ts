@@ -1,24 +1,100 @@
-const TMDB_BASE = "https://api.themoviedb.org/3";
-const TMDB_TOKEN = process.env.EXPO_PUBLIC_TMDB_TOKEN;
+import { Platform } from "react-native";
 
-if (!TMDB_TOKEN) {
-  throw new Error("Falta EXPO_PUBLIC_TMDB_TOKEN en .env. Reinicia con -c.");
+const PORT = 4000;
+const FALLBACK_LAN_IP = "192.168.1.70";
+const DEFAULT_TIMEOUT_MS = Number(
+  process.env.EXPO_PUBLIC_API_TIMEOUT_MS || 15000,
+);
+
+function cleanBase(url: string) {
+  return url.replace(/\/+$/, "");
 }
 
-async function tmdbGet<T>(path: string): Promise<T> {
-  const res = await fetch(`${TMDB_BASE}${path}`, {
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${TMDB_TOKEN}`,
-    },
-  });
+export function getApiBase() {
+  const envUrl = cleanBase(
+    String(process.env.EXPO_PUBLIC_API_BASE_URL || "").trim(),
+  );
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`TMDB ${res.status}: ${text || res.statusText}`);
+  if (envUrl) {
+    return envUrl;
   }
 
-  return (await res.json()) as T;
+  if (Platform.OS === "web") {
+    return `http://localhost:${PORT}`;
+  }
+
+  return `http://${FALLBACK_LAN_IP}:${PORT}`;
 }
 
-export const api = { tmdbGet };
+const API_BASE = getApiBase();
+
+async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  const url = `${API_BASE}${cleanPath}`;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS);
+
+  let res: Response;
+
+  try {
+    res = await fetch(url, {
+      ...init,
+      signal: controller.signal,
+      headers: {
+        accept: "application/json",
+        ...(init.body ? { "Content-Type": "application/json" } : {}),
+        ...(init.headers || {}),
+      },
+    });
+  } catch (error: any) {
+    clearTimeout(timeout);
+
+    if (error?.name === "AbortError") {
+      throw new Error(`Tiempo de espera agotado en ${url}`);
+    }
+
+    throw new Error(
+      `No se pudo conectar con ${url}: ${error?.message || "sin respuesta"}`,
+    );
+  }
+
+  clearTimeout(timeout);
+
+  const raw = await res.text();
+  let data: any = null;
+
+  try {
+    data = raw ? JSON.parse(raw) : null;
+  } catch {
+    data = raw;
+  }
+
+  if (!res.ok) {
+    const detail =
+      typeof data === "string"
+        ? data
+        : data?.detail || data?.message || res.statusText;
+
+    throw new Error(`API ${res.status}: ${detail}`);
+  }
+
+  return data as T;
+}
+
+export function getJson<T>(path: string) {
+  return request<T>(path, { method: "GET" });
+}
+
+export function postJson<T>(path: string, body?: unknown) {
+  return request<T>(path, {
+    method: "POST",
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+}
+
+export const api = {
+  baseUrl: API_BASE,
+  get: getJson,
+  post: postJson,
+};

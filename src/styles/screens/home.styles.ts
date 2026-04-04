@@ -8,21 +8,28 @@ export const homeStyles = StyleSheet.create({
   },
 
   hero: {
-    marginHorizontal: theme.spacing.lg,
-    marginTop: theme.spacing.md,
-    borderRadius: theme.radius.lg,
+    width: "100%",
+    alignSelf: "center",
+    marginHorizontal: 0,
+    marginTop: 0,
+    borderRadius: 28,
     padding: theme.spacing.lg,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: "rgba(8, 25, 35, 0.96)",
     borderWidth: 1,
-    borderColor: theme.colors.border,
+    borderColor: "rgba(49, 195, 201, 0.16)",
     overflow: "hidden",
+    shadowColor: "#31c3c9",
+    shadowOpacity: 0.18,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 8,
   },
 
   ornamentsRow: {
     position: "absolute",
-    top: -22,
-    right: -12,
-    opacity: 0.25,
+    top: -20,
+    right: -10,
+    opacity: 0.22,
     transform: [{ rotate: "12deg" }],
   },
 
@@ -38,6 +45,7 @@ export const homeStyles = StyleSheet.create({
   content: {
     paddingHorizontal: theme.spacing.lg,
     marginTop: theme.spacing.lg,
+    paddingBottom: theme.spacing.xl,
   },
 
   gap: {

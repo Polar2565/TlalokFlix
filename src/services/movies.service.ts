@@ -21,6 +21,15 @@ export type MovieDetailFull = {
   genres: { id: number; name: string }[];
 };
 
+export type Genre = { id: number; name: string };
+
+export type MoviesPage = {
+  items: Movie[];
+  page: number;
+  totalPages: number;
+  totalResults: number;
+};
+
 type TmdbMovie = {
   id: number;
   title: string;
@@ -31,6 +40,9 @@ type TmdbMovie = {
 };
 
 type TmdbListResponse = {
+  page?: number;
+  total_pages?: number;
+  total_results?: number;
   results: TmdbMovie[];
 };
 
@@ -42,6 +54,10 @@ type TmdbVideosResponse = {
     type: string;
     official?: boolean;
   }[];
+};
+
+type TmdbGenresResponse = {
+  genres: Genre[];
 };
 
 const IMG_500 = "https://image.tmdb.org/t/p/w500";
@@ -57,31 +73,84 @@ function mapMovie(m: TmdbMovie): Movie {
   };
 }
 
+function mapMoviesPage(data: TmdbListResponse): MoviesPage {
+  return {
+    items: Array.isArray(data?.results) ? data.results.map(mapMovie) : [],
+    page: Number(data?.page || 1),
+    totalPages: Number(data?.total_pages || 1),
+    totalResults: Number(data?.total_results || 0),
+  };
+}
+
 export const moviesService = {
-  // 🔹 Listado popular
-  getPopular: async () => {
-    const data = await api.tmdbGet<TmdbListResponse>(
-      "/movie/popular?language=es-MX&page=1",
+  getPopularPage: async (page = 1): Promise<MoviesPage> => {
+    const data = await api.get<TmdbListResponse>(
+      `/api/movies/popular?page=${page}`,
     );
-    return data.results.map(mapMovie);
+    return mapMoviesPage(data);
   },
 
-  // 🔹 Detalle básico (NO lo tocamos)
+  getPopular: async (page = 1): Promise<Movie[]> => {
+    const data = await moviesService.getPopularPage(page);
+    return data.items;
+  },
+
+  searchMoviesPage: async (query: string, page = 1): Promise<MoviesPage> => {
+    const q = String(query || "").trim();
+    if (!q) {
+      return {
+        items: [],
+        page: 1,
+        totalPages: 1,
+        totalResults: 0,
+      };
+    }
+
+    const encoded = encodeURIComponent(q);
+
+    const data = await api.get<TmdbListResponse>(
+      `/api/movies/search?query=${encoded}&page=${page}`,
+    );
+
+    return mapMoviesPage(data);
+  },
+
+  searchMovies: async (query: string, page = 1): Promise<Movie[]> => {
+    const data = await moviesService.searchMoviesPage(query, page);
+    return data.items;
+  },
+
+  getGenres: async (): Promise<Genre[]> => {
+    const data = await api.get<TmdbGenresResponse>("/api/movies/genres");
+    return data.genres || [];
+  },
+
+  discoverByGenrePage: async (
+    genreId: number,
+    page = 1,
+  ): Promise<MoviesPage> => {
+    const data = await api.get<TmdbListResponse>(
+      `/api/movies/discover?genreId=${genreId}&page=${page}`,
+    );
+    return mapMoviesPage(data);
+  },
+
+  discoverByGenre: async (genreId: number, page = 1): Promise<Movie[]> => {
+    const data = await moviesService.discoverByGenrePage(genreId, page);
+    return data.items;
+  },
+
   getById: async (id: string) => {
-    const data = await api.tmdbGet<TmdbMovie>(`/movie/${id}?language=es-MX`);
+    const data = await api.get<TmdbMovie>(`/api/movies/${id}`);
     return mapMovie(data);
   },
 
-  // 🔥 Detalle COMPLETO (para la vista tipo TMDB)
   getDetailFull: async (id: string): Promise<MovieDetailFull> => {
-    return await api.tmdbGet<MovieDetailFull>(`/movie/${id}?language=es-MX`);
+    return await api.get<MovieDetailFull>(`/api/movies/${id}`);
   },
 
-  // 🔹 Trailer (YouTube)
   getTrailerKey: async (id: string): Promise<string | null> => {
-    const data = await api.tmdbGet<TmdbVideosResponse>(
-      `/movie/${id}/videos?language=es-MX`,
-    );
+    const data = await api.get<TmdbVideosResponse>(`/api/movies/${id}/videos`);
 
     const official = data.results.find(
       (v) =>
@@ -98,5 +167,9 @@ export const moviesService = {
       (v) => v.site === "YouTube" && v.type === "Teaser",
     );
     return teaser?.key ?? null;
+  },
+
+  getMovie: async (id: string) => {
+    return await moviesService.getById(id);
   },
 };
