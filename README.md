@@ -40,7 +40,6 @@
 - [Aviso de privacidad](#aviso-de-privacidad)
 - [Seguridad implementada](#seguridad-implementada)
 - [Problemas comunes y soluciones](#problemas-comunes-y-soluciones)
-- [Capturas de la aplicación](#capturas-de-la-aplicación)
 - [Derechos de autor](#derechos-de-autor)
 - [Licencia](#licencia)
 - [Créditos](#créditos)
@@ -808,47 +807,6 @@ ollama pull qwen2.5:3b
 
 ---
 
-# Capturas de la aplicación
-
-Guarda las imágenes en la carpeta `./docs/screens/` y reemplaza los nombres si usas otra estructura.
-
-## Login
-
-![Login](./docs/screens/login.png)
-
-## Registro
-
-![Register](./docs/screens/register.png)
-
-## Aviso de privacidad
-
-![Privacy](./docs/screens/privacy.png)
-
-## Home
-
-![Home](./docs/screens/home.png)
-
-## Explorar
-
-![Explore](./docs/screens/explore.png)
-
-## Encuesta
-
-![Survey](./docs/screens/survey.png)
-
-## Recomendaciones
-
-![Recommendations](./docs/screens/recommendations.png)
-
-## Detalle de película
-
-![Movie Detail](./docs/screens/movie-detail.png)
-
-## Favoritos
-
-![Favorites](./docs/screens/favorites.png)
-
----
 
 # Derechos de autor
 
