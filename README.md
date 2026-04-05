@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/images/tlal.png" alt="TlalokFlix Logo" width="180" />
+  <img src="./assets/images/tla.png" alt="TlalokFlix Logo" width="180" />
 </p>
 
 <h1 align="center">TlalokFlix</h1>
