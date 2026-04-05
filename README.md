@@ -35,12 +35,14 @@
 - [Variables de entorno](#variables-de-entorno)
 - [Requisitos para ejecutar el proyecto](#requisitos-para-ejecutar-el-proyecto)
 - [Instalación y ejecución](#instalación-y-ejecución)
+- [Generación del APK](#generación-del-apk)
 - [Cómo probar la aplicación](#cómo-probar-la-aplicación)
 - [Aviso de privacidad](#aviso-de-privacidad)
 - [Seguridad implementada](#seguridad-implementada)
-- [Errores comunes y soluciones](#errores-comunes-y-soluciones)
-- [Capturas sugeridas](#capturas-sugeridas)
-- [Mejoras futuras](#mejoras-futuras)
+- [Problemas comunes y soluciones](#problemas-comunes-y-soluciones)
+- [Capturas de la aplicación](#capturas-de-la-aplicación)
+- [Derechos de autor](#derechos-de-autor)
+- [Licencia](#licencia)
 - [Créditos](#créditos)
 - [English Summary](#english-summary)
 
@@ -48,21 +50,22 @@
 
 # Descripción
 
-**TlalokFlix** es una aplicación móvil desarrollada para recomendar películas según el estado de ánimo del usuario.  
-La propuesta del proyecto es mejorar la forma en que una persona descubre contenido audiovisual, evitando que solo navegue por listas genéricas y permitiendo que responda una encuesta rápida para detectar su mood actual y mostrarle opciones más alineadas con cómo se siente.
+**TlalokFlix** es una aplicación móvil desarrollada para recomendar películas según el estado de ánimo del usuario.
 
-Además del sistema de recomendaciones, la app incluye una arquitectura real de desarrollo móvil con:
+La propuesta del proyecto es mejorar la forma en que una persona descubre contenido audiovisual, evitando que solo navegue por listas genéricas y permitiendo que responda una encuesta breve para detectar su mood actual y mostrarle opciones más alineadas con cómo se siente.
 
-- **registro de nuevos usuarios**
-- **inicio de sesión**
-- **persistencia de sesión**
-- **aviso de privacidad**
-- **consumo de API REST**
-- **detalle de películas**
-- **integración con TMDB**
-- **apoyo de IA local con Ollama**
+Además del sistema de recomendaciones, la aplicación integra una arquitectura completa de desarrollo móvil con:
 
-TlalokFlix no fue pensado como una plataforma de streaming propia, sino como una aplicación de **descubrimiento, consulta y recomendación de películas** con una experiencia visual más personalizada.
+- registro de nuevos usuarios
+- inicio de sesión
+- persistencia de sesión
+- aviso de privacidad
+- consumo de API REST
+- detalle de películas
+- integración con TMDB
+- apoyo de IA local con Ollama
+
+TlalokFlix no fue pensado como una plataforma de streaming propia, sino como una aplicación de descubrimiento, consulta y recomendación de películas con una experiencia visual personalizada.
 
 ---
 
@@ -95,7 +98,7 @@ Después del login, la aplicación guarda la sesión para no pedir acceso cada v
 
 ## 3. Aviso de privacidad
 
-Dentro del flujo de acceso y/o registro se contempla el **aviso de privacidad**, ya que se manejan datos del usuario necesarios para el funcionamiento de la app.
+Dentro del flujo de acceso y/o registro se contempla el aviso de privacidad, ya que se manejan datos del usuario necesarios para el funcionamiento de la app.
 
 ## 4. Persistencia de sesión
 
@@ -153,25 +156,26 @@ Se integró una capa ligera de IA local para generar:
 
 # Stack tecnológico
 
-| Tecnología          | Uso principal                               |
-| ------------------- | ------------------------------------------- |
-| React Native        | Desarrollo de la app móvil                  |
-| Expo                | Entorno de desarrollo y ejecución           |
-| Expo Router         | Navegación basada en archivos               |
-| TypeScript          | Tipado estático y organización del frontend |
-| Node.js             | Entorno de ejecución del backend            |
-| Express             | Construcción de la API REST                 |
-| SQL Server          | Base de datos principal                     |
-| mssql / msnodesqlv8 | Conexión entre backend y SQL Server         |
-| bcrypt              | Cifrado de contraseñas                      |
-| jsonwebtoken        | Autenticación con JWT                       |
-| dotenv              | Variables de entorno                        |
-| cors                | Comunicación entre frontend y backend       |
-| helmet              | Seguridad básica del backend                |
-| TMDB API            | Información real de películas               |
-| Ollama              | IA local                                    |
-| qwen2.5:3b          | Modelo usado para texto corto               |
-| expo-secure-store   | Almacenamiento seguro del token             |
+| Tecnología | Uso principal |
+|---|---|
+| React Native | Desarrollo de la app móvil |
+| Expo | Entorno de desarrollo y ejecución |
+| Expo Router | Navegación basada en archivos |
+| TypeScript | Tipado estático y organización del frontend |
+| Node.js | Entorno de ejecución del backend |
+| Express | Construcción de la API REST |
+| SQL Server | Base de datos principal |
+| mssql / msnodesqlv8 | Conexión entre backend y SQL Server |
+| bcrypt | Cifrado de contraseñas |
+| jsonwebtoken | Autenticación con JWT |
+| dotenv | Variables de entorno |
+| cors | Comunicación entre frontend y backend |
+| helmet | Seguridad básica del backend |
+| TMDB API | Información real de películas |
+| Ollama | IA local |
+| qwen2.5:3b | Modelo usado para texto corto |
+| expo-secure-store | Almacenamiento seguro del token |
+| expo-build-properties | Configuración nativa de build para Android |
 
 ---
 
@@ -180,66 +184,58 @@ Se integró una capa ligera de IA local para generar:
 ## Frontend
 
 ### React Native
-
 Se utilizó para construir la interfaz móvil de la aplicación.  
 Sirve para desarrollar una app moderna con una sola base de código.
 
 ### Expo
-
 Se utilizó como entorno de desarrollo.  
 Sirve para ejecutar el proyecto fácilmente en emulador, Expo Go o navegador.
 
 ### Expo Router
-
 Se utilizó para manejar la navegación de la app.  
 Sirve para organizar pantallas como login, register, survey, home, explore y movie detail.
 
 ### TypeScript
-
 Se utilizó para mejorar la calidad del código.  
 Sirve para reducir errores, definir tipos y mantener mejor la estructura del proyecto.
 
 ### expo-secure-store
-
 Se utilizó para guardar el token de sesión.  
 Sirve para almacenar información sensible de forma más segura en el dispositivo.
+
+### expo-build-properties
+Se utilizó para ajustar propiedades nativas del build de Android.  
+Sirve para habilitar configuración como `usesCleartextTraffic` cuando la app se conecta a un backend local por HTTP durante pruebas con APK.
 
 ---
 
 ## Backend
 
 ### Node.js
-
 Se utilizó como entorno de ejecución del servidor.  
 Sirve para correr la lógica del backend y exponer los endpoints.
 
 ### Express
-
 Se utilizó para construir la API REST.  
 Sirve para manejar rutas de autenticación, IA y películas.
 
 ### bcrypt
-
 Se utilizó para cifrar contraseñas.  
-Sirve para evitar guardar passwords en texto plano.
+Sirve para evitar guardar contraseñas en texto plano.
 
 ### jsonwebtoken (JWT)
-
 Se utilizó para generar y validar tokens.  
 Sirve para mantener sesiones autenticadas de forma segura.
 
 ### dotenv
-
 Se utilizó para manejar configuraciones sensibles fuera del código.  
 Sirve para separar secretos, tokens, puertos y datos de conexión.
 
 ### cors
-
 Se utilizó para permitir la comunicación entre frontend y backend.  
-Sirve sobre todo en entorno de desarrollo cuando la app y la API corren por separado.
+Sirve principalmente en entorno de desarrollo cuando la app y la API corren por separado.
 
 ### helmet
-
 Se utilizó para reforzar seguridad básica en el backend.  
 Sirve para agregar encabezados HTTP que ayudan a proteger la API.
 
@@ -248,17 +244,14 @@ Sirve para agregar encabezados HTTP que ayudan a proteger la API.
 ## Base de datos
 
 ### SQL Server
-
 Se utilizó como base de datos principal del proyecto.  
 Sirve para almacenar usuarios, credenciales y datos de autenticación.
 
 ### mssql / msnodesqlv8
-
 Se utilizaron para conectar Node.js con SQL Server.  
 Sirven para ejecutar consultas y trabajar con la base de datos desde el backend.
 
 ### ODBC Driver 17 for SQL Server
-
 Se utilizó para habilitar la conexión en entorno Windows.  
 Es una pieza importante para que el backend pueda comunicarse correctamente con SQL Server.
 
@@ -267,7 +260,6 @@ Es una pieza importante para que el backend pueda comunicarse correctamente con 
 ## Servicios externos
 
 ### TMDB
-
 Se utilizó como proveedor de información de películas.  
 Sirve para obtener:
 
@@ -279,12 +271,10 @@ Sirve para obtener:
 - videos y trailers
 
 ### Ollama
-
 Se utilizó para correr IA de forma local.  
 Sirve para generar texto corto dentro de la app sin depender de un servicio externo de pago.
 
 ### qwen2.5:3b
-
 Se utilizó como modelo para Ollama.  
 Sirve mejor para texto breve y UI que modelos más pesados o más lentos.
 
@@ -292,7 +282,7 @@ Sirve mejor para texto breve y UI que modelos más pesados o más lentos.
 
 # Arquitectura general
 
-La arquitectura del proyecto sigue un modelo **cliente-servidor**:
+La arquitectura del proyecto sigue un modelo cliente-servidor:
 
 ```text
 [ Usuario ]
@@ -360,7 +350,7 @@ TMDB aporta datos reales de películas y Ollama aporta texto breve para enriquec
 
 1. El usuario ingresa sus credenciales.
 2. El frontend manda la solicitud al backend.
-3. El backend valida correo/usuario y contraseña.
+3. El backend valida correo y contraseña.
 4. Si es correcto, genera un token JWT.
 5. El token se guarda de forma segura en el dispositivo.
 6. El usuario entra a las pantallas privadas.
@@ -456,6 +446,7 @@ TlalokFlix/
 ├── app/
 │   ├── login.tsx
 │   ├── register.tsx
+│   ├── privacy-modal.tsx
 │   ├── survey.tsx
 │   ├── recommendations.tsx
 │   ├── movie/
@@ -487,6 +478,8 @@ TlalokFlix/
 │       ├── services/
 │       └── db/
 │
+├── eas.json
+├── app.json
 └── README.md
 ```
 
@@ -562,7 +555,6 @@ TMDB_TIMEOUT_MS=12000
 ```env
 EXPO_PUBLIC_API_BASE_URL=http://TU_IP_LOCAL:4000
 EXPO_PUBLIC_API_TIMEOUT_MS=15000
-EXPO_PUBLIC_TMDB_TOKEN=TU_TOKEN_TMDB
 ```
 
 > No subas secretos reales ni credenciales válidas al repositorio.
@@ -601,7 +593,7 @@ EXPO_PUBLIC_TMDB_TOKEN=TU_TOKEN_TMDB
 
 ```bash
 git clone <URL_DEL_REPOSITORIO>
-cd <NOMBRE_DEL_PROYECTO>
+cd TlalokFlix
 ```
 
 ## 2. Instalar dependencias del backend
@@ -658,14 +650,44 @@ npx expo start
 
 ---
 
+# Generación del APK
+
+Para generar el APK de Android se utilizó **EAS Build**.
+
+## Requisitos previos
+
+- cuenta de Expo
+- `eas-cli` instalado
+- `eas.json` configurado
+- `app.json` con `android.package`
+- plugin `expo-build-properties` para configuración nativa de Android
+
+## Comandos principales
+
+```bash
+npm install -g eas-cli
+eas login
+eas build:configure
+eas build --platform android --profile preview
+```
+
+## Notas importantes
+
+- El perfil `preview` fue configurado para generar APK.
+- Para pruebas en red local con backend HTTP se habilitó `usesCleartextTraffic` mediante `expo-build-properties`.
+- Si instalas un APK nuevo, conviene desinstalar la versión anterior antes de probar nuevamente.
+- El backend debe permanecer activo en la misma red local para que el login y el registro funcionen desde el APK.
+
+---
+
 # Cómo probar la aplicación
 
 1. iniciar SQL Server
 2. iniciar Ollama
 3. verificar que el modelo `qwen2.5:3b` esté instalado
 4. iniciar backend
-5. iniciar frontend
-6. abrir la app en emulador o Expo Go
+5. iniciar frontend o instalar el APK
+6. abrir la app en emulador, Expo Go o APK
 7. registrarse como usuario nuevo
 8. iniciar sesión
 9. revisar el aviso de privacidad
@@ -679,7 +701,7 @@ npx expo start
 
 # Aviso de privacidad
 
-TlalokFlix contempla un **aviso de privacidad** porque el sistema maneja información del usuario necesaria para el funcionamiento de la app.
+TlalokFlix contempla un aviso de privacidad porque el sistema maneja información del usuario necesaria para el funcionamiento de la app.
 
 ## Datos tratados
 
@@ -721,7 +743,7 @@ La app integra varias medidas de seguridad:
 
 ---
 
-# Errores comunes y soluciones
+# Problemas comunes y soluciones
 
 ## 1. El backend no inicia
 
@@ -751,13 +773,15 @@ Aumenta el tiempo en `.env`:
 OLLAMA_TIMEOUT_MS=45000
 ```
 
-## 4. El frontend no llega al backend
+## 4. El frontend o APK no llegan al backend
 
 Revisa:
 
 - `EXPO_PUBLIC_API_BASE_URL`
 - que el backend esté activo en el puerto correcto
 - que el celular y la PC estén en la misma red
+- que el APK haya sido regenerado después de cambios nativos
+- que `usesCleartextTraffic` esté habilitado vía `expo-build-properties`
 
 ## 5. No aparecen recomendaciones
 
@@ -784,16 +808,15 @@ ollama pull qwen2.5:3b
 
 ---
 
-# Capturas sugeridas
+# Capturas de la aplicación
 
-Puedes agregar estas imágenes cuando las tengas listas:
+Guarda las imágenes en la carpeta `./docs/screens/` y reemplaza los nombres si usas otra estructura.
 
-```md
 ## Login
 
 ![Login](./docs/screens/login.png)
 
-## Register
+## Registro
 
 ![Register](./docs/screens/register.png)
 
@@ -804,6 +827,10 @@ Puedes agregar estas imágenes cuando las tengas listas:
 ## Home
 
 ![Home](./docs/screens/home.png)
+
+## Explorar
+
+![Explore](./docs/screens/explore.png)
 
 ## Encuesta
 
@@ -816,28 +843,41 @@ Puedes agregar estas imágenes cuando las tengas listas:
 ## Detalle de película
 
 ![Movie Detail](./docs/screens/movie-detail.png)
-```
+
+## Favoritos
+
+![Favorites](./docs/screens/favorites.png)
 
 ---
 
-# Mejoras futuras
+# Derechos de autor
 
-- recuperación de contraseña
-- persistencia real de favoritos en base de datos
-- historial de recomendaciones
-- perfil editable
-- mejores filtros en explorar
-- caché de resultados TMDB
-- onboarding inicial
-- recomendaciones híbridas por mood + historial
-- más robustez en IA local
-- despliegue formal de backend y base de datos
+© Javier Solís. Todos los derechos reservados.
+
+El código fuente, diseño, estructura, documentación y materiales asociados a este proyecto pertenecen a su autor, salvo los recursos de terceros utilizados bajo sus respectivas licencias.
+
+Queda prohibida la copia, distribución, modificación o explotación comercial total o parcial de este proyecto sin autorización previa y por escrito del autor.
+
+Los nombres, marcas, logos, imágenes o datos provenientes de servicios de terceros como TMDB, Expo, React Native, Node.js, SQL Server u Ollama pertenecen a sus respectivos propietarios y se utilizan únicamente con fines académicos, de desarrollo o demostración.
+
+---
+
+# Licencia
+
+Este proyecto es de uso académico y de portafolio personal.  
+No se autoriza su uso comercial sin permiso explícito del autor.
+
+Si deseas reutilizar parte del proyecto con fines educativos, se recomienda conservar el crédito correspondiente y no eliminar la autoría original.
 
 ---
 
 # Créditos
 
-Proyecto desarrollado como aplicación móvil de recomendaciones de películas basada en mood, integrando:
+Proyecto desarrollado por:
+
+**Javier Solís**
+
+Tecnologías principales utilizadas:
 
 - React Native
 - Expo
@@ -846,8 +886,6 @@ Proyecto desarrollado como aplicación móvil de recomendaciones de películas b
 - SQL Server
 - TMDB
 - Ollama
-
-Puedes reemplazar esta sección por los nombres reales del equipo o autores.
 
 ---
 
